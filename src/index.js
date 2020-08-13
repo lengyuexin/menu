@@ -1,17 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
+
+import Menu from './menu';
+
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+function App() {
+
+  const [list, setList] = useState([])
+
+
+  useEffect(() => {
+
+
+    fetch('/tree.json').then(res => res.json()).then(data => {
+     
+
+      setList(data)
+    }).catch(err => {
+      console.error(err)
+    })
+
+  }, [])
+
+  return (
+    <div className='menu-container'>
+      <Menu list={list} />
+
+
+    </div>
+
+    
+  )
+}
+
+render(<App />, document.getElementById("root"))
